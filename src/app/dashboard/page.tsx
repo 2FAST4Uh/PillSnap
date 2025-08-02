@@ -31,20 +31,20 @@ export default function DashboardPage() {
                 </Link>
                 <Link
                   href="/dashboard"
-                  className="flex items-center gap-4 px-2.5 text-foreground"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <LayoutDashboard className="h-5 w-5" />
                   Dashboard
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/history"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <History className="h-5 w-5" />
                   Identification History
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/settings"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <Settings className="h-5 w-5" />
@@ -88,11 +88,11 @@ export default function DashboardPage() {
               <LayoutDashboard className="h-4 w-4" />
               Dashboard
             </Link>
-            <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+            <Link href="/dashboard/history" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
               <History className="h-4 w-4" />
               Identification History
             </Link>
-             <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+             <Link href="/dashboard/settings" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
               <Settings className="h-4 w-4" />
               Settings
             </Link>

@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
-import { User, LayoutDashboard, History, Settings, LogOut, PanelLeft, Sun, Moon } from 'lucide-react';
+import { User, LayoutDashboard, History, Settings, LogOut, PanelLeft } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -12,12 +12,8 @@ import {
   DropdownMenuItem, 
   DropdownMenuLabel, 
   DropdownMenuSeparator, 
-  DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from 'next-themes';
 
 export default function DashboardLayout({
   children,
@@ -38,7 +34,7 @@ export default function DashboardLayout({
             <SheetContent side="left" className="sm:max-w-xs">
               <nav className="grid gap-6 text-lg font-medium">
                 <Link
-                  href="#"
+                  href="/"
                   className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
                 >
                   <Logo className="h-5 w-5 transition-all group-hover:scale-110" />
@@ -76,12 +72,15 @@ export default function DashboardLayout({
             </SheetContent>
           </Sheet>
           <div className="flex items-center gap-3">
-            <Logo />
+            <Link href="/" aria-label="Home">
+              <Logo />
+            </Link>
             <h1 className="hidden sm:block text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
+            <ThemeSwitcher />
             <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon" className="rounded-full">
@@ -117,18 +116,6 @@ export default function DashboardLayout({
                     <span>Settings</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                 <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <ThemeSwitcher />
-                    <span className="ml-2">Theme</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent>
-                      <DropdownMenuItem>Light</DropdownMenuItem>
-                      <DropdownMenuItem>Dark</DropdownMenuItem>
-                      <DropdownMenuItem>System</DropdownMenuItem>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/">

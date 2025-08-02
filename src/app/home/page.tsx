@@ -2,7 +2,7 @@
 import { PillIdentifier } from "@/components/pill-identifier";
 import { ExpertList } from "@/components/expert-list";
 import { Logo } from "@/components/logo";
-import { User, LayoutDashboard, History, Settings, Sun, Moon, Laptop } from "lucide-react";
+import { User, LayoutDashboard, History, Settings, LogOut } from "lucide-react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -12,9 +12,6 @@ import {
   DropdownMenuLabel, 
   DropdownMenuSeparator, 
   DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -26,7 +23,9 @@ export default function Home() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-background/80 backdrop-blur-sm px-4 py-3 sm:px-6">
         <div className="flex items-center gap-3">
-          <Logo />
+          <Link href="/" aria-label="Home">
+            <Logo />
+          </Link>
           <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
         </div>
         
@@ -34,6 +33,7 @@ export default function Home() {
             <Button variant="primary" asChild>
                 <Link href="/dashboard">AI chatbot</Link>
             </Button>
+            <ThemeSwitcher />
             <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon" className="rounded-full">
@@ -70,21 +70,11 @@ export default function Home() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                 <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <Sun className="h-4 w-4 mr-2 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-4 w-4 mr-2 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                    <span>Toggle theme</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent>
-                    <DropdownMenuItem>Light</DropdownMenuItem>
-                    <DropdownMenuItem>Dark</DropdownMenuItem>
-                    <DropdownMenuItem>System</DropdownMenuItem>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                <Link href="/">Logout</Link>
+                  <Link href="/">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </Link>
                 </DropdownMenuItem>
             </DropdownMenuContent>
             </DropdownMenu>

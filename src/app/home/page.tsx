@@ -1,10 +1,8 @@
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PillIdentifier } from "@/components/pill-identifier";
 import { ExpertList } from "@/components/expert-list";
-import { Chatbot } from "@/components/chatbot";
 import { Logo } from "@/components/logo";
-import { Camera, Bot, Stethoscope, User, LayoutDashboard } from "lucide-react";
+import { User, LayoutDashboard } from "lucide-react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -17,17 +15,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-background/50 backdrop-blur-sm px-4 py-3 sm:px-6">
+    <div className="flex min-h-screen w-full flex-col bg-background">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-background/80 backdrop-blur-sm px-4 py-3 sm:px-6">
         <div className="flex items-center gap-3">
           <Logo />
           <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
         </div>
+        <div className="hidden md:flex items-center gap-4">
+            <Button variant="ghost" asChild><Link href="/home">Home</Link></Button>
+            <Button variant="ghost" asChild><Link href="/dashboard/history">History</Link></Button>
+            <Button variant="ghost" asChild><Link href="/dashboard/settings">Settings</Link></Button>
+        </div>
         <div className="flex items-center gap-2">
             <ThemeSwitcher />
+            <Button variant="primary" asChild className="hidden md:flex">
+                <Link href="/dashboard">Launch App</Link>
+            </Button>
             <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon" className="rounded-full">
@@ -57,31 +65,61 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1 p-4 md:p-8">
-        <Tabs defaultValue="identifier" className="w-full max-w-4xl mx-auto">
-          <TabsList className="grid w-full grid-cols-3 h-auto">
-            <TabsTrigger value="identifier" className="py-2">
-              <Camera className="mr-2 h-4 w-4" />
-              Identifier
-            </TabsTrigger>
-            <TabsTrigger value="experts" className="py-2">
-              <Stethoscope className="mr-2 h-4 w-4" />
-              Experts
-            </TabsTrigger>
-            <TabsTrigger value="chatbot" className="py-2">
-              <Bot className="mr-2 h-4 w-4" />
-              Chatbot
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="identifier" className="mt-6">
-            <PillIdentifier />
-          </TabsContent>
-          <TabsContent value="experts" className="mt-6">
-            <ExpertList />
-          </TabsContent>
-          <TabsContent value="chatbot" className="mt-6">
-            <Chatbot />
-          </TabsContent>
-        </Tabs>
+        <div className="max-w-7xl mx-auto space-y-8">
+            <Card className="overflow-hidden shadow-lg">
+                <div className="grid md:grid-cols-2">
+                    <div className="p-8 md:p-12 order-2 md:order-1 flex flex-col justify-center">
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">Medication Photo Upload</h2>
+                        <p className="mt-4 text-lg text-muted-foreground">
+                            For accessible home medication and to confirming health information.
+                        </p>
+                        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <h3 className="font-semibold text-foreground">Medicine Photo Upload</h3>
+                                <p className="text-sm text-muted-foreground mt-1">Instantly check data on Brighton road mg Centscia aposedli shord ncaegesorchy tecas cetncate ahtemethan.</p>
+                            </div>
+                             <div>
+                                <h3 className="font-semibold text-foreground">Age Group & Day</h3>
+                                <p className="text-sm text-muted-foreground mt-1">Colore smecile vitoreation doxor then sti co varti viingi wll dcretoa.</p>
+                            </div>
+                        </div>
+                        <div className="mt-8 flex gap-4">
+                           <Button variant="secondary" size="lg">Treated Diseases</Button>
+                           <Button variant="primary" size="lg">Call Button</Button>
+                        </div>
+                    </div>
+                    <div className="order-1 md:order-2 bg-muted flex items-center justify-center p-8">
+                        <Image 
+                            src="https://placehold.co/500x350.png"
+                            width={500}
+                            height={350}
+                            alt="Medicine bottles"
+                            className="rounded-lg shadow-2xl"
+                            data-ai-hint="medicine bottles"
+                        />
+                    </div>
+                </div>
+            </Card>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="md:col-span-2">
+                <PillIdentifier />
+              </div>
+              <div>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Contact an Expert</CardTitle>
+                        <CardDescription>
+                        Find a specialist for your health concerns.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ExpertList />
+                    </CardContent>
+                </Card>
+              </div>
+            </div>
+        </div>
       </main>
       <footer className="border-t bg-background/50 text-center text-xs text-muted-foreground p-4 md:text-sm">
         MedSparks - Your AI Health Companion. This is a demo app and should not be used for actual medical diagnosis. Always consult a healthcare professional.

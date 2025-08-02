@@ -3,8 +3,7 @@ import { cn } from "@/lib/utils";
 
 export function Logo(props: SVGProps<SVGSVGElement>) {
   return (
-    <div className="relative w-8 h-8 flex items-center justify-center">
-      <div className={cn("absolute w-full h-full rounded-full", props.className)} style={{ background: "hsl(var(--primary))", opacity: 0.2 }}></div>
+    <div className="relative w-8 h-8 flex items-center justify-center rounded-lg bg-primary/10">
       <svg
         width="24"
         height="24"
@@ -12,14 +11,29 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         {...props}
-        className=""
+        className={cn("text-primary", props.className)}
       >
-        <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 12L2 7" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 12L12 22" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 12L22 7" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M17 14.5L12 12L7 14.5" stroke="hsl(var(--accent))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 12V17.5" stroke="hsl(var(--accent))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path
+          d="M12 2L4 5.5V12.5C4 16.92 7.58 21.13 12 22C16.42 21.13 20 16.92 20 12.5V5.5L12 2Z"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 15V9"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M9 12H15"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </div>
   );

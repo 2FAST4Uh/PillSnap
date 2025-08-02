@@ -15,8 +15,8 @@ export default function LandingPage() {
   const [password, setPassword] = useState('');
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-10 flex items-center gap-3 border-b bg-background/50 backdrop-blur-sm px-4 py-3 sm:px-6">
+    <div className="flex flex-col min-h-screen bg-background">
+      <header className="sticky top-0 z-10 flex items-center gap-3 border-b bg-background/80 backdrop-blur-sm px-4 py-3 sm:px-6">
         <Logo />
         <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
       </header>
@@ -56,7 +56,7 @@ export default function LandingPage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                    <Button asChild className="w-full" variant="primary">
                        <Link href="/home">Login</Link>
                     </Button>
                   </CardFooter>
@@ -83,7 +83,7 @@ export default function LandingPage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                    <Button asChild className="w-full" variant="primary">
                        <Link href="/home">Create Account</Link>
                     </Button>
                   </CardFooter>

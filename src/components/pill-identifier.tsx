@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useTransition } from "react";
@@ -111,7 +112,7 @@ export function PillIdentifier() {
               </div>
             )}
             
-            <Button type="submit" disabled={isPending || !file} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button type="submit" disabled={isPending || !file} className="w-full" variant="primary">
               {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -198,7 +199,7 @@ function ResultState({ result }: { result: Result }) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-accent-foreground fill-accent" />
+            <Sparkles className="h-6 w-6 text-accent" />
             AI-Powered Summary
           </CardTitle>
         </CardHeader>

@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Logo } from '@/components/logo';
 import { User, LayoutDashboard, History, Settings, LogOut } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { ThemeSwitcher } from '@/components/theme-switcher';
 
 export default function DashboardPage() {
   return (
@@ -15,6 +16,7 @@ export default function DashboardPage() {
           <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
         </div>
         <div className="flex items-center gap-4">
+            <ThemeSwitcher />
             <Button variant="ghost" size="sm" asChild>
                 <Link href="/home">Home</Link>
             </Button>

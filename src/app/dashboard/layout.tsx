@@ -2,10 +2,22 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
-import { User, LayoutDashboard, History, Settings, LogOut, PanelLeft } from 'lucide-react';
+import { User, LayoutDashboard, History, Settings, LogOut, PanelLeft, Sun, Moon } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent
+} from "@/components/ui/dropdown-menu";
+import { useTheme } from 'next-themes';
 
 export default function DashboardLayout({
   children,
@@ -34,7 +46,7 @@ export default function DashboardLayout({
                 </Link>
                 <Link
                   href="/dashboard"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  className="flex items-center gap-4 px-2.5 text-foreground"
                 >
                   <LayoutDashboard className="h-5 w-5" />
                   Dashboard
@@ -70,18 +82,62 @@ export default function DashboardLayout({
         </div>
 
         <div className="flex items-center gap-4">
-            <ThemeSwitcher />
-            <Button variant="ghost" size="sm" asChild>
-                <Link href="/home">Home</Link>
-            </Button>
-             <Button variant="outline" size="icon" className="rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="https://placehold.co/32x32.png" alt="User avatar" data-ai-hint="user avatar" />
-                <AvatarFallback>
-                  <User className="h-4 w-4" />
-                </AvatarFallback>
-              </Avatar>
-            </Button>
+            <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="rounded-full">
+                <Avatar className="h-8 w-8">
+                    <AvatarImage src="https://placehold.co/32x32.png" alt="User avatar" data-ai-hint="user avatar" />
+                    <AvatarFallback>
+                    <User className="h-4 w-4" />
+                    </AvatarFallback>
+                </Avatar>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/home">Home</Link>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                  <Link href="/dashboard">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/history">
+                    <History className="mr-2 h-4 w-4" />
+                    <span>History</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/settings">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                 <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <ThemeSwitcher />
+                    <span className="ml-2">Theme</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                      <DropdownMenuItem>Light</DropdownMenuItem>
+                      <DropdownMenuItem>Dark</DropdownMenuItem>
+                      <DropdownMenuItem>System</DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </Link>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+            </DropdownMenu>
         </div>
       </header>
       <div className="flex flex-1">

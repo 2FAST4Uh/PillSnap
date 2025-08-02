@@ -2,7 +2,7 @@
 import { PillIdentifier } from "@/components/pill-identifier";
 import { ExpertList } from "@/components/expert-list";
 import { Logo } from "@/components/logo";
-import { User, LayoutDashboard } from "lucide-react";
+import { User, LayoutDashboard, History, Settings, Sun, Moon, Laptop } from "lucide-react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -11,7 +11,10 @@ import {
   DropdownMenuItem, 
   DropdownMenuLabel, 
   DropdownMenuSeparator, 
-  DropdownMenuTrigger 
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -26,14 +29,9 @@ export default function Home() {
           <Logo />
           <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
         </div>
-        <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" asChild><Link href="/home">Home</Link></Button>
-            <Button variant="ghost" asChild><Link href="/dashboard/history">History</Link></Button>
-            <Button variant="ghost" asChild><Link href="/dashboard/settings">Settings</Link></Button>
-        </div>
+        
         <div className="flex items-center gap-2">
-            <ThemeSwitcher />
-            <Button variant="primary" asChild className="hidden md:flex">
+            <Button variant="primary" asChild>
                 <Link href="/dashboard">Launch App</Link>
             </Button>
             <DropdownMenu>
@@ -47,15 +45,43 @@ export default function Home() {
                 </Avatar>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                <Link href="/dashboard">
+                  <Link href="/home">Home</Link>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                  <Link href="/dashboard">
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
-                </Link>
+                  </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/history">
+                    <History className="mr-2 h-4 w-4" />
+                    <span>History</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/settings">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                 <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <Sun className="h-4 w-4 mr-2 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                    <Moon className="absolute h-4 w-4 mr-2 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    <span>Toggle theme</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem>Light</DropdownMenuItem>
+                    <DropdownMenuItem>Dark</DropdownMenuItem>
+                    <DropdownMenuItem>System</DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                 <Link href="/">Logout</Link>

@@ -3,6 +3,11 @@
 import { identifyMedicine } from '@/ai/flows/identify-medicine';
 import { summarizeMedicineInfo } from '@/ai/flows/summarize-medicine-info';
 import { medicalChatbot } from '@/ai/flows/medical-chatbot';
+import { auth } from './firebase';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import { cookies } from 'next/headers';
+import { SESSION_COOKIE_NAME } from './session';
+
 
 export async function handleIdentifyAndSummarize(formData: FormData) {
   const file = formData.get('image') as File;
@@ -44,5 +49,53 @@ export async function handleChat(query: string) {
   } catch (e) {
     console.error(e);
     return { answer: 'Sorry, I am having trouble connecting to my knowledge base. Please try again later.' };
+  }
+}
+
+
+async function createSession(uid: string) {
+    const response = await fetch('http://127.0.0.1:3000/api/session/login', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${uid}`,
+        }
+    });
+
+    if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Failed to create session: ${text}`);
+    }
+
+    const session = await response.json();
+    cookies().set(SESSION_COOKIE_NAME, session.sessionCookie, session.options);
+}
+
+export async function handleLogin(email: string, password: string): Promise<{ error?: string }> {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    await createSession(userCredential.user.uid);
+    return {};
+  } catch (e: any) {
+    return { error: e.message };
+  }
+}
+
+export async function handleSignUp(email: string, password: string): Promise<{ error?: string }> {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await createSession(userCredential.user.uid);
+    return {};
+  } catch (e: any) {
+    return { error: e.message };
+  }
+}
+
+export async function handleLogout(): Promise<{ error?: string }> {
+  try {
+    await signOut(auth);
+    cookies().delete(SESSION_COOKIE_NAME);
+    return {};
+  } catch(e: any) {
+    return { error: e.message };
   }
 }

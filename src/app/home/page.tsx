@@ -32,7 +32,7 @@ export default function Home() {
         
         <div className="flex items-center gap-2">
             <Button variant="primary" asChild>
-                <Link href="/dashboard">Launch App</Link>
+                <Link href="/dashboard">AI chatbot</Link>
             </Button>
             <DropdownMenu>
             <DropdownMenuTrigger asChild>

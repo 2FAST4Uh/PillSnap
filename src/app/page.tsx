@@ -10,7 +10,7 @@ export default function Home() {
     <div className="flex min-h-screen w-full flex-col">
       <header className="sticky top-0 z-10 flex items-center gap-3 border-b bg-background px-4 py-3 sm:px-6">
         <Logo />
-        <h1 className="text-xl font-semibold text-foreground sm:text-2xl">PillSnap</h1>
+        <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
       </header>
       <main className="flex-1 p-4 md:p-8">
         <Tabs defaultValue="identifier" className="w-full max-w-4xl mx-auto">
@@ -40,7 +40,7 @@ export default function Home() {
         </Tabs>
       </main>
       <footer className="border-t bg-background/50 text-center text-xs text-muted-foreground p-4 md:text-sm">
-        PillSnap - Your AI Health Companion. This is a demo app and should not be used for actual medical diagnosis. Always consult a healthcare professional.
+        MedSparks - Your AI Health Companion. This is a demo app and should not be used for actual medical diagnosis. Always consult a healthcare professional.
       </footer>
     </div>
   );

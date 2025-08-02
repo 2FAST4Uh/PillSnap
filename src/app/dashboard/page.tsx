@@ -3,18 +3,69 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
-import { User, LayoutDashboard, History, Settings, LogOut } from 'lucide-react';
+import { User, LayoutDashboard, History, Settings, LogOut, PanelLeft } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 export default function DashboardPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
-       <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background px-4 sm:px-6">
+       <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 sm:px-6">
         <div className="flex items-center gap-3">
-          <Logo />
-          <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button size="icon" variant="outline" className="sm:hidden">
+                <PanelLeft className="h-5 w-5" />
+                <span className="sr-only">Toggle Menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="sm:max-w-xs">
+              <nav className="grid gap-6 text-lg font-medium">
+                <Link
+                  href="#"
+                  className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+                >
+                  <Logo className="h-5 w-5 transition-all group-hover:scale-110" />
+                  <span className="sr-only">MedSparks</span>
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-4 px-2.5 text-foreground"
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  Dashboard
+                </Link>
+                <Link
+                  href="#"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <History className="h-5 w-5" />
+                  Identification History
+                </Link>
+                <Link
+                  href="#"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Settings className="h-5 w-5" />
+                  Settings
+                </Link>
+                <Link
+                  href="/"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <LogOut className="h-5 w-5" />
+                   Logout
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
+          <div className="flex items-center gap-3">
+            <Logo />
+            <h1 className="hidden sm:block text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
+          </div>
         </div>
+
         <div className="flex items-center gap-4">
             <ThemeSwitcher />
             <Button variant="ghost" size="sm" asChild>

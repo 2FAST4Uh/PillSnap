@@ -16,41 +16,45 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-background px-4 py-3 sm:px-6">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-background/50 backdrop-blur-sm px-4 py-3 sm:px-6">
         <div className="flex items-center gap-3">
           <Logo />
           <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="https://placehold.co/32x32.png" alt="User avatar" data-ai-hint="user avatar" />
-                <AvatarFallback>
-                  <User className="h-4 w-4" />
-                </AvatarFallback>
-              </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/dashboard">
-                <LayoutDashboard className="mr-2 h-4 w-4" />
-                <span>Dashboard</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/">Logout</Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-2">
+            <ThemeSwitcher />
+            <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="rounded-full">
+                <Avatar className="h-8 w-8">
+                    <AvatarImage src="https://placehold.co/32x32.png" alt="User avatar" data-ai-hint="user avatar" />
+                    <AvatarFallback>
+                    <User className="h-4 w-4" />
+                    </AvatarFallback>
+                </Avatar>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                <Link href="/dashboard">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    <span>Dashboard</span>
+                </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                <Link href="/">Logout</Link>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
       </header>
       <main className="flex-1 p-4 md:p-8">
         <Tabs defaultValue="identifier" className="w-full max-w-4xl mx-auto">

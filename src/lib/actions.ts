@@ -6,7 +6,36 @@ import { medicalChatbot } from '@/ai/flows/medical-chatbot';
 import { auth } from '@/lib/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { cookies } from 'next/headers';
-import { SESSION_COOKIE_NAME, SESSION_COOKIE_OPTIONS } from './session';
+import { SESSION_COOKIE_NAME } from './session';
+
+
+async function createSession(idToken: string) {
+    // This fetch needs to be an absolute URL on the server.
+    const url = new URL('/api/session/login', process.env.URL || 'http://localhost:9002');
+    const response = await fetch(url.toString(), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idToken }),
+    });
+
+    if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error || 'Failed to create session');
+    }
+}
+
+// This action is now called from the client component which handles the firebase auth.
+export async function handleSetSession(idToken: string): Promise<{ error?: string }> {
+    try {
+        await createSession(idToken);
+        return {};
+    } catch (e: any) {
+        console.error('Session creation failed:', e);
+        return { error: e.message || 'An unexpected error occurred during session creation.' };
+    }
+}
 
 
 export async function handleIdentifyAndSummarize(formData: FormData) {
@@ -49,65 +78,6 @@ export async function handleChat(query: string) {
   } catch (e) {
     console.error(e);
     return { answer: 'Sorry, I am having trouble connecting to my knowledge base. Please try again later.' };
-  }
-}
-
-async function createSession(idToken: string) {
-    const response = await fetch(new URL('/api/session/login', process.env.URL), {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idToken }),
-    });
-
-    if (!response.ok) {
-        const result = await response.json();
-        throw new Error(result.error || 'Failed to create session');
-    }
-}
-
-// Firebase authentication functions
-export async function handleLogin(email: string, password: string): Promise<{ error?: string }> {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const idToken = await userCredential.user.getIdToken();
-    await createSession(idToken);
-    return {};
-  } catch (e: any) {
-    // Provide a more user-friendly error message
-    switch (e.code) {
-      case 'auth/user-not-found':
-        return { error: 'No user found with this email.' };
-      case 'auth/wrong-password':
-        return { error: 'Incorrect password. Please try again.' };
-      case 'auth/invalid-credential':
-          return { error: 'Invalid credentials. Please check your email and password.' };
-      default:
-        console.error(e);
-        return { error: 'An unexpected error occurred during login.' };
-    }
-  }
-}
-
-export async function handleSignUp(email: string, password: string): Promise<{ error?: string }> {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const idToken = await userCredential.user.getIdToken();
-    await createSession(idToken);
-    return {};
-  } catch (e: any) {
-    switch (e.code) {
-      case 'auth/email-already-in-use':
-        return { error: 'This email is already in use.' };
-      case 'auth/weak-password':
-        return { error: 'The password is too weak. Please use a stronger password.' };
-      case 'auth/invalid-email':
-        return { error: 'The email address is not valid.' };
-      default:
-        console.error(e);
-        return { error: 'An unexpected error occurred during sign up.' };
-    }
   }
 }
 

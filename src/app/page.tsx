@@ -10,8 +10,10 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Logo } from '@/components/logo';
 import { useToast } from '@/hooks/use-toast';
-import { handleLogin, handleSignUp } from '@/lib/actions';
+import { handleSetSession } from '@/lib/actions';
 import { Loader2 } from 'lucide-react';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function LandingPage() {
   const [loginEmail, setLoginEmail] = useState('');
@@ -26,21 +28,45 @@ export default function LandingPage() {
   const onLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    const result = await handleLogin(loginEmail, loginPassword);
-    if (result.error) {
-      toast({
-        variant: 'destructive',
-        title: 'Login Failed',
-        description: result.error,
-      });
-    } else {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      const idToken = await userCredential.user.getIdToken();
+      
+      const sessionResult = await handleSetSession(idToken);
+      if (sessionResult.error) {
+        throw new Error(sessionResult.error);
+      }
+
       toast({
         title: 'Login Successful',
         description: 'Welcome back!',
       });
       router.push('/home');
+
+    } catch (error: any) {
+      let errorMessage = 'An unexpected error occurred during login.';
+      switch (error.code) {
+        case 'auth/user-not-found':
+          errorMessage = 'No user found with this email.';
+          break;
+        case 'auth/wrong-password':
+          errorMessage = 'Incorrect password. Please try again.';
+          break;
+        case 'auth/invalid-credential':
+          errorMessage = 'Invalid credentials. Please check your email and password.';
+          break;
+        default:
+          errorMessage = error.message;
+          break;
+      }
+      toast({
+        variant: 'destructive',
+        title: 'Login Failed',
+        description: errorMessage,
+      });
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const onSignUp = async (e: React.FormEvent) => {
@@ -54,21 +80,46 @@ export default function LandingPage() {
       return;
     }
     setIsLoading(true);
-    const result = await handleSignUp(signupEmail, signupPassword);
-    if (result.error) {
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
+      const idToken = await userCredential.user.getIdToken();
+
+      const sessionResult = await handleSetSession(idToken);
+      if (sessionResult.error) {
+        throw new Error(sessionResult.error);
+      }
+      
       toast({
-        variant: 'destructive',
-        title: 'Sign Up Failed',
-        description: result.error,
-      });
-    } else {
-       toast({
         title: 'Sign Up Successful',
         description: 'Your account has been created.',
       });
       router.push('/home');
+
+    } catch (error: any) {
+       let errorMessage = 'An unexpected error occurred during sign up.';
+       switch (error.code) {
+          case 'auth/email-already-in-use':
+            errorMessage = 'This email is already in use.';
+            break;
+          case 'auth/weak-password':
+            errorMessage = 'The password is too weak. Please use a stronger password.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'The email address is not valid.';
+            break;
+          default:
+            errorMessage = error.message;
+            break;
+        }
+      toast({
+        variant: 'destructive',
+        title: 'Sign Up Failed',
+        description: errorMessage,
+      });
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (

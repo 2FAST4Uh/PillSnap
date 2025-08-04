@@ -137,7 +137,7 @@ export default function Home() {
                         <CardDescription>
                         Find a specialist for your health concerns.
                         </CardDescription>
-                    </Header>
+                    </CardHeader>
                     <CardContent>
                         <ExpertList />
                     </CardContent>

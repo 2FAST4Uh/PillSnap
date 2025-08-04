@@ -21,14 +21,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import Image from "next/image";
 import { handleLogout } from "@/lib/actions";
 import { useRouter } from "next/navigation";
-import { auth } from "@/lib/firebase";
-import { signOut } from 'firebase/auth';
 
 export default function Home() {
   const router = useRouter();
 
   const onLogout = async () => {
-    await signOut(auth);
+    // Note: The dummy login does not use firebase, so signOut will throw an error.
+    // To prevent this, we'll just call the server action to clear the cookie.
     await handleLogout();
     router.push('/');
   };

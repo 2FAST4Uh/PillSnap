@@ -18,8 +18,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { handleLogout } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/lib/firebase';
-import { signOut } from 'firebase/auth';
 
 export default function DashboardLayout({
   children,
@@ -29,7 +27,6 @@ export default function DashboardLayout({
   const router = useRouter();
 
   const onLogout = async () => {
-    await signOut(auth);
     await handleLogout();
     router.push('/');
   };

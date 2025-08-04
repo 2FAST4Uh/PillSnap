@@ -3,12 +3,11 @@
 import { identifyMedicine } from '@/ai/flows/identify-medicine';
 import { summarizeMedicineInfo } from '@/ai/flows/summarize-medicine-info';
 import { medicalChatbot } from '@/ai/flows/medical-chatbot';
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-} from 'firebase/auth';
-import { auth } from './firebase';
+import { auth as adminAuth } from '@/lib/firebase-admin';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import { cookies } from 'next/headers';
+import { SESSION_COOKIE_NAME, SESSION_COOKIE_OPTIONS } from './session';
 
 
 export async function handleIdentifyAndSummarize(formData: FormData) {
@@ -54,12 +53,18 @@ export async function handleChat(query: string) {
   }
 }
 
+async function createSession(idToken: string) {
+  const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+  const sessionCookie = await adminAuth().createSessionCookie(idToken, { expiresIn });
+  cookies().set(SESSION_COOKIE_NAME, sessionCookie, SESSION_COOKIE_OPTIONS);
+}
+
 // Firebase authentication functions
 export async function handleLogin(email: string, password: string): Promise<{ error?: string }> {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    // This is a client-side SDK method. The user is now signed in.
-    // We don't need to return the user, the auth state listener on the client will handle it.
+    const idToken = await userCredential.user.getIdToken();
+    await createSession(idToken);
     return {};
   } catch (e: any) {
     // Provide a more user-friendly error message
@@ -71,28 +76,34 @@ export async function handleLogin(email: string, password: string): Promise<{ er
       case 'auth/invalid-credential':
           return { error: 'Invalid credentials. Please check your email and password.' };
       default:
-        return { error: e.message };
+        console.error(e);
+        return { error: 'An unexpected error occurred during login.' };
     }
   }
 }
 
 export async function handleSignUp(email: string, password: string): Promise<{ error?: string }> {
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const idToken = await userCredential.user.getIdToken();
+    await createSession(idToken);
     return {};
   } catch (e: any) {
      if (e.code === 'auth/email-already-in-use') {
       return { error: 'This email is already in use.' };
     }
-    return { error: e.message };
+    console.error(e);
+    return { error: 'An unexpected error occurred during sign up.' };
   }
 }
 
 export async function handleLogout(): Promise<{ error?: string }> {
     try {
+        cookies().delete(SESSION_COOKIE_NAME);
         await signOut(auth);
         return {};
     } catch (e: any) {
-        return { error: e.message };
+        console.error(e);
+        return { error: 'An unexpected error occurred during logout.' };
     }
 }

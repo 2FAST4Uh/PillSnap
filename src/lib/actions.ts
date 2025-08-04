@@ -57,10 +57,22 @@ export async function handleChat(query: string) {
 // Firebase authentication functions
 export async function handleLogin(email: string, password: string): Promise<{ error?: string }> {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    // This is a client-side SDK method. The user is now signed in.
+    // We don't need to return the user, the auth state listener on the client will handle it.
     return {};
   } catch (e: any) {
-    return { error: e.message };
+    // Provide a more user-friendly error message
+    switch (e.code) {
+      case 'auth/user-not-found':
+        return { error: 'No user found with this email.' };
+      case 'auth/wrong-password':
+        return { error: 'Incorrect password. Please try again.' };
+      case 'auth/invalid-credential':
+          return { error: 'Invalid credentials. Please check your email and password.' };
+      default:
+        return { error: e.message };
+    }
   }
 }
 
@@ -69,6 +81,9 @@ export async function handleSignUp(email: string, password: string): Promise<{ e
     await createUserWithEmailAndPassword(auth, email, password);
     return {};
   } catch (e: any) {
+     if (e.code === 'auth/email-already-in-use') {
+      return { error: 'This email is already in use.' };
+    }
     return { error: e.message };
   }
 }

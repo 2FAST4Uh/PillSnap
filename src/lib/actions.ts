@@ -7,8 +7,23 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
+  getAuth,
 } from 'firebase/auth';
-import { auth } from './firebase';
+import { getApp, getApps, initializeApp } from 'firebase/app';
+import { auth as clientAuth } from './firebase';
+
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+};
+
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+const auth = getAuth(app);
 
 
 export async function handleIdentifyAndSummarize(formData: FormData) {
@@ -90,7 +105,7 @@ export async function handleSignUp(email: string, password: string): Promise<{ e
 
 export async function handleLogout(): Promise<{ error?: string }> {
     try {
-        await signOut(auth);
+        await signOut(clientAuth);
         return {};
     } catch (e: any) {
         return { error: e.message };

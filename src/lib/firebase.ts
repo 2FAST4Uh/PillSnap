@@ -1,3 +1,4 @@
+
 'use client';
 
 import { getApp, getApps, initializeApp, type FirebaseOptions } from 'firebase/app';

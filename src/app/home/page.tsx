@@ -22,7 +22,7 @@ import Image from "next/image";
 import { handleLogout } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
-import { signOut } from "firebase/auth";
+import { signOut } from 'firebase/auth';
 
 export default function Home() {
   const router = useRouter();
@@ -140,7 +140,7 @@ export default function Home() {
                         <CardDescription>
                         Find a specialist for your health concerns.
                         </CardDescription>
-                    </CardHeader>
+                    </Header>
                     <CardContent>
                         <ExpertList />
                     </CardContent>

@@ -1,4 +1,6 @@
 
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
@@ -14,12 +16,21 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { handleLogout } from '@/lib/actions';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+
+  const onLogout = async () => {
+    await handleLogout();
+    router.push('/');
+  };
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 sm:px-6">
@@ -61,13 +72,14 @@ export default function DashboardLayout({
                   <Settings className="h-5 w-5" />
                   Settings
                 </Link>
-                <Link
-                  href="/"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                <Button
+                  onClick={onLogout}
+                  variant="ghost"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground justify-start"
                 >
                   <LogOut className="h-5 w-5" />
                    Logout
-                </Link>
+                </Button>
               </nav>
             </SheetContent>
           </Sheet>
@@ -117,11 +129,9 @@ export default function DashboardLayout({
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Logout</span>
-                  </Link>
+                <DropdownMenuItem onClick={onLogout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Logout</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
             </DropdownMenu>
@@ -142,10 +152,14 @@ export default function DashboardLayout({
               <Settings className="h-4 w-4" />
               Settings
             </Link>
-             <Link href="/" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary mt-auto">
+             <Button
+                onClick={onLogout}
+                variant="ghost"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary mt-auto justify-start"
+              >
               <LogOut className="h-4 w-4" />
               Logout
-            </Link>
+            </Button>
           </nav>
         </aside>
         <main className="flex-1 p-4 sm:p-6">

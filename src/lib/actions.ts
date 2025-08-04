@@ -3,6 +3,13 @@
 import { identifyMedicine } from '@/ai/flows/identify-medicine';
 import { summarizeMedicineInfo } from '@/ai/flows/summarize-medicine-info';
 import { medicalChatbot } from '@/ai/flows/medical-chatbot';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
+import { auth } from './firebase';
+
 
 export async function handleIdentifyAndSummarize(formData: FormData) {
   const file = formData.get('image') as File;
@@ -47,23 +54,30 @@ export async function handleChat(query: string) {
   }
 }
 
-// Mock authentication functions
+// Firebase authentication functions
 export async function handleLogin(email: string, password: string): Promise<{ error?: string }> {
-  console.log('Simulating login for:', email, password);
-  // In a real app, you'd validate against a database.
-  // For this mock, we'll just succeed.
-  return {};
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    return {};
+  } catch (e: any) {
+    return { error: e.message };
+  }
 }
 
 export async function handleSignUp(email: string, password: string): Promise<{ error?: string }> {
-  console.log('Simulating signup for:', email, password);
-  // In a real app, you'd create a new user.
-  // For this mock, we'll just succeed.
-  return {};
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    return {};
+  } catch (e: any) {
+    return { error: e.message };
+  }
 }
 
 export async function handleLogout(): Promise<{ error?: string }> {
-    console.log('Simulating logout.');
-    // For this mock, we'll just succeed.
-    return {};
+    try {
+        await signOut(auth);
+        return {};
+    } catch (e: any) {
+        return { error: e.message };
+    }
 }

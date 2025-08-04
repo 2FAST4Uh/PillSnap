@@ -3,7 +3,6 @@
 import { identifyMedicine } from '@/ai/flows/identify-medicine';
 import { summarizeMedicineInfo } from '@/ai/flows/summarize-medicine-info';
 import { medicalChatbot } from '@/ai/flows/medical-chatbot';
-import { auth as adminAuth } from '@/lib/firebase-admin';
 import { auth } from '@/lib/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { cookies } from 'next/headers';
@@ -54,9 +53,19 @@ export async function handleChat(query: string) {
 }
 
 async function createSession(idToken: string) {
-  const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
-  const sessionCookie = await adminAuth().createSessionCookie(idToken, { expiresIn });
-  cookies().set(SESSION_COOKIE_NAME, sessionCookie, SESSION_COOKIE_OPTIONS);
+    const response = await fetch('http://localhost:9002/api/session/login', {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${idToken}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to create session');
+    }
+
+    const { sessionCookie, options } = await response.json();
+    cookies().set(SESSION_COOKIE_NAME, sessionCookie, options);
 }
 
 // Firebase authentication functions

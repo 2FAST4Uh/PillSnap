@@ -53,7 +53,7 @@ export async function handleChat(query: string) {
 }
 
 async function createSession(idToken: string) {
-    const response = await fetch('http://localhost:9002/api/session/login', {
+    const response = await fetch(new URL('/api/session/login', process.env.URL), {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

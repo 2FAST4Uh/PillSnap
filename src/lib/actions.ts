@@ -98,11 +98,17 @@ export async function handleSignUp(email: string, password: string): Promise<{ e
     await createSession(idToken);
     return {};
   } catch (e: any) {
-     if (e.code === 'auth/email-already-in-use') {
-      return { error: 'This email is already in use.' };
+    switch (e.code) {
+      case 'auth/email-already-in-use':
+        return { error: 'This email is already in use.' };
+      case 'auth/weak-password':
+        return { error: 'The password is too weak. Please use a stronger password.' };
+      case 'auth/invalid-email':
+        return { error: 'The email address is not valid.' };
+      default:
+        console.error(e);
+        return { error: 'An unexpected error occurred during sign up.' };
     }
-    console.error(e);
-    return { error: 'An unexpected error occurred during sign up.' };
   }
 }
 

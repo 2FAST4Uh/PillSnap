@@ -21,11 +21,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import Image from "next/image";
 import { handleLogout } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
+import { signOut } from "firebase/auth";
 
 export default function Home() {
   const router = useRouter();
 
   const onLogout = async () => {
+    await signOut(auth);
     await handleLogout();
     router.push('/');
   };

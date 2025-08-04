@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -10,7 +11,6 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Logo } from '@/components/logo';
 import { useToast } from '@/hooks/use-toast';
-import { handleSetSession } from '@/lib/actions';
 import { Loader2 } from 'lucide-react';
 import { auth } from '@/lib/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
@@ -29,12 +29,21 @@ export default function LandingPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
+      if (!auth) {
+        throw new Error("Firebase Auth is not initialized.");
+      }
       const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
       const idToken = await userCredential.user.getIdToken();
       
-      const sessionResult = await handleSetSession(idToken);
-      if (sessionResult.error) {
-        throw new Error(sessionResult.error);
+      const response = await fetch('/api/session/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (!response.ok) {
+        const { error } = await response.json();
+        throw new Error(error || 'Failed to create session.');
       }
 
       toast({
@@ -82,12 +91,21 @@ export default function LandingPage() {
     setIsLoading(true);
 
     try {
+      if (!auth) {
+        throw new Error("Firebase Auth is not initialized.");
+      }
       const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
       const idToken = await userCredential.user.getIdToken();
 
-      const sessionResult = await handleSetSession(idToken);
-      if (sessionResult.error) {
-        throw new Error(sessionResult.error);
+      const response = await fetch('/api/session/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (!response.ok) {
+        const { error } = await response.json();
+        throw new Error(error || 'Failed to create session.');
       }
       
       toast({
@@ -108,6 +126,9 @@ export default function LandingPage() {
           case 'auth/invalid-email':
             errorMessage = 'The email address is not valid.';
             break;
+           case 'auth/configuration-not-found':
+            errorMessage = 'Firebase configuration is missing or invalid. Please check your environment variables.';
+            break;
           default:
             errorMessage = error.message;
             break;
@@ -121,7 +142,7 @@ export default function LandingPage() {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-10 flex items-center gap-3 border-b bg-background/80 backdrop-blur-sm px-4 py-3 sm:px-6">

@@ -26,8 +26,6 @@ export default function Home() {
   const router = useRouter();
 
   const onLogout = async () => {
-    // Note: The dummy login does not use firebase, so signOut will throw an error.
-    // To prevent this, we'll just call the server action to clear the cookie.
     await handleLogout();
     router.push('/');
   };

@@ -25,6 +25,19 @@ export default function LandingPage() {
   const router = useRouter();
   const { toast } = useToast();
 
+  const createSession = async (idToken: string) => {
+    const response = await fetch('/api/session/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken }),
+    });
+
+    if (!response.ok) {
+      const { error } = await response.json();
+      throw new Error(error || 'Failed to create session.');
+    }
+  };
+
   const onLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -35,16 +48,7 @@ export default function LandingPage() {
       const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
       const idToken = await userCredential.user.getIdToken();
       
-      const response = await fetch('/api/session/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken }),
-      });
-
-      if (!response.ok) {
-        const { error } = await response.json();
-        throw new Error(error || 'Failed to create session.');
-      }
+      await createSession(idToken);
 
       toast({
         title: 'Login Successful',
@@ -97,16 +101,7 @@ export default function LandingPage() {
       const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
       const idToken = await userCredential.user.getIdToken();
 
-      const response = await fetch('/api/session/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken }),
-      });
-
-      if (!response.ok) {
-        const { error } = await response.json();
-        throw new Error(error || 'Failed to create session.');
-      }
+      await createSession(idToken);
       
       toast({
         title: 'Sign Up Successful',

@@ -12,8 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Logo } from '@/components/logo';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function LandingPage() {
   const [loginEmail, setLoginEmail] = useState('');
@@ -25,117 +23,37 @@ export default function LandingPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const createSession = async (idToken: string) => {
-    const response = await fetch('/api/session/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idToken }),
-    });
-
-    if (!response.ok) {
-      const { error } = await response.json();
-      throw new Error(error || 'Failed to create session.');
-    }
-  };
-
   const onLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    try {
-      if (!auth) {
-        throw new Error("Firebase Auth is not initialized.");
-      }
-      const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-      const idToken = await userCredential.user.getIdToken();
-      
-      await createSession(idToken);
 
+    // Dummy login logic
+    if (loginEmail === 'test@test.com' && loginPassword === 'password') {
       toast({
-        title: 'Login Successful',
-        description: 'Welcome back!',
+        title: 'Dummy Login Successful',
+        description: 'Bypassing authentication for development.',
       });
       router.push('/home');
-
-    } catch (error: any) {
-      let errorMessage = 'An unexpected error occurred during login.';
-      switch (error.code) {
-        case 'auth/user-not-found':
-          errorMessage = 'No user found with this email.';
-          break;
-        case 'auth/wrong-password':
-          errorMessage = 'Incorrect password. Please try again.';
-          break;
-        case 'auth/invalid-credential':
-          errorMessage = 'Invalid credentials. Please check your email and password.';
-          break;
-        default:
-          errorMessage = error.message;
-          break;
-      }
+    } else {
       toast({
         variant: 'destructive',
         title: 'Login Failed',
-        description: errorMessage,
+        description: 'Please use the dummy credentials: test@test.com and password.',
       });
-    } finally {
       setIsLoading(false);
     }
   };
 
   const onSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (signupPassword !== signupConfirmPassword) {
-      toast({
-        variant: 'destructive',
-        title: 'Sign Up Failed',
-        description: 'Passwords do not match.',
-      });
-      return;
-    }
     setIsLoading(true);
 
-    try {
-      if (!auth) {
-        throw new Error("Firebase Auth is not initialized.");
-      }
-      const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
-      const idToken = await userCredential.user.getIdToken();
-
-      await createSession(idToken);
-      
-      toast({
-        title: 'Sign Up Successful',
-        description: 'Your account has been created.',
-      });
-      router.push('/home');
-
-    } catch (error: any) {
-       let errorMessage = 'An unexpected error occurred during sign up.';
-       switch (error.code) {
-          case 'auth/email-already-in-use':
-            errorMessage = 'This email is already in use.';
-            break;
-          case 'auth/weak-password':
-            errorMessage = 'The password is too weak. Please use a stronger password.';
-            break;
-          case 'auth/invalid-email':
-            errorMessage = 'The email address is not valid.';
-            break;
-           case 'auth/configuration-not-found':
-            errorMessage = 'Firebase configuration is missing or invalid. Please check your environment variables.';
-            break;
-          default:
-            errorMessage = error.message;
-            break;
-        }
-      toast({
-        variant: 'destructive',
-        title: 'Sign Up Failed',
-        description: errorMessage,
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    // Dummy signup logic
+    toast({
+      title: 'Dummy Sign Up',
+      description: 'Bypassing authentication and redirecting to home.',
+    });
+    router.push('/home');
   };
   
   return (
@@ -175,11 +93,11 @@ export default function LandingPage() {
                     <CardContent className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="login-email">Email</Label>
-                        <Input id="login-email" type="email" placeholder="m@example.com" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
+                        <Input id="login-email" type="email" placeholder="test@test.com" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="login-password">Password</Label>
-                        <Input id="login-password" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
+                        <Input id="login-password" type="password" placeholder="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
                       </div>
                     </CardContent>
                     <CardFooter>

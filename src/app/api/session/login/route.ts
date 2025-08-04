@@ -4,41 +4,53 @@ import { NextRequest, NextResponse } from 'next/server';
 import { SESSION_COOKIE_OPTIONS, SESSION_COOKIE_NAME } from '@/lib/session';
 import { getApps, initializeApp, cert } from 'firebase-admin/app';
 
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT
-  ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-  : undefined;
-
-if (!getApps().length) {
-    if (serviceAccount) {
-        initializeApp({
-            credential: cert(serviceAccount),
-        });
-    } else {
-        // Fallback for local development if service account isn't set
-        console.warn("Firebase Admin SDK service account not found. Using default app initialization.");
-        initializeApp();
-    }
+// Parse the service account key from the environment variable
+const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
+let serviceAccount: any;
+if (serviceAccountString) {
+  try {
+    serviceAccount = JSON.parse(serviceAccountString);
+  } catch (e) {
+    console.error('Error parsing Firebase service account key:', e);
+  }
 }
 
+// Initialize Firebase Admin SDK if not already initialized
+if (!getApps().length) {
+  if (serviceAccount) {
+    initializeApp({
+      credential: cert(serviceAccount),
+    });
+  } else {
+    // Fallback for local development if service account isn't set
+    console.warn("Firebase Admin SDK service account not found or invalid. Using default app initialization. Session creation will likely fail.");
+    // Initializing without credentials will work in some GCP environments, but fail locally.
+    initializeApp();
+  }
+}
 
-export async function GET(request: NextRequest) {
-    const authorization = request.headers.get('Authorization');
-    const idToken = authorization?.split('Bearer ')[1];
+export async function POST(request: NextRequest) {
+  const { idToken } = await request.json();
 
-    if (!idToken) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+  if (!idToken) {
+    return NextResponse.json({ error: 'Authorization token not found' }, { status: 401 });
+  }
 
-    try {
-        const expiresIn = 60 * 60 * 24 * 5 * 1000;
-        const sessionCookie = await auth().createSessionCookie(idToken, { expiresIn });
-        
-        return NextResponse.json({
-            sessionCookie,
-            options: SESSION_COOKIE_OPTIONS,
-        });
-    } catch (error) {
-        console.error('Error creating session cookie:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-    }
+  try {
+    // Set session expiration to 5 days.
+    const expiresIn = 60 * 60 * 24 * 5 * 1000;
+    const sessionCookie = await auth().createSessionCookie(idToken, { expiresIn });
+    
+    // Set cookie policy for session cookie.
+    const options = { ...SESSION_COOKIE_OPTIONS, maxAge: expiresIn };
+    
+    const response = NextResponse.json({ status: 'success' });
+    response.cookies.set(SESSION_COOKIE_NAME, sessionCookie, options);
+    
+    return response;
+
+  } catch (error) {
+    console.error('Error creating session cookie:', error);
+    return NextResponse.json({ error: 'Failed to create session' }, { status: 401 });
+  }
 }

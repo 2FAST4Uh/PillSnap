@@ -54,18 +54,17 @@ export async function handleChat(query: string) {
 
 async function createSession(idToken: string) {
     const response = await fetch('http://localhost:9002/api/session/login', {
-        method: 'GET',
+        method: 'POST',
         headers: {
-            Authorization: `Bearer ${idToken}`,
+            'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ idToken }),
     });
 
     if (!response.ok) {
-        throw new Error('Failed to create session');
+        const result = await response.json();
+        throw new Error(result.error || 'Failed to create session');
     }
-
-    const { sessionCookie, options } = await response.json();
-    cookies().set(SESSION_COOKIE_NAME, sessionCookie, options);
 }
 
 // Firebase authentication functions

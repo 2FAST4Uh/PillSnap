@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { PillIdentifier } from "@/components/pill-identifier";
 import { ExpertList } from "@/components/expert-list";
 import { Logo } from "@/components/logo";
-import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone, Loader2 } from "lucide-react";
+import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone, Loader2, CalendarClock } from "lucide-react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -63,53 +63,6 @@ export default function Home() {
     );
   };
   
-  const handleCreateReminder = async () => {
-    if (!('Notification' in window)) {
-      toast({
-        variant: 'destructive',
-        title: 'Notifications Not Supported',
-        description: 'Your browser does not support notifications.',
-      });
-      return;
-    }
-
-    if (Notification.permission === 'granted') {
-      new Notification('PillSnap Reminder', {
-        body: 'Time to take your medication!',
-        icon: '/logo.svg', // Optional: you can add an icon
-      });
-       toast({
-        title: 'Reminder Set!',
-        description: 'You will be notified.',
-      });
-    } else if (Notification.permission !== 'denied') {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        new Notification('PillSnap Reminder', {
-          body: 'This is a test notification.',
-          icon: '/logo.svg',
-        });
-        toast({
-            title: 'Permissions Granted!',
-            description: 'You can now set medication reminders.',
-        });
-      } else {
-         toast({
-            variant: 'destructive',
-            title: 'Permissions Denied',
-            description: 'You will not receive notifications.',
-        });
-      }
-    } else {
-        toast({
-            variant: 'destructive',
-            title: 'Permissions Denied',
-            description: 'Please enable notifications in your browser settings.',
-        });
-    }
-  };
-
-
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-background/80 backdrop-blur-sm px-4 py-3 sm:px-6">
@@ -155,6 +108,12 @@ export default function Home() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
+                  <Link href="/dashboard/reminders">
+                    <CalendarClock className="mr-2 h-4 w-4" />
+                    <span>Reminders</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/dashboard/settings">
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Settings</span>
@@ -196,7 +155,11 @@ export default function Home() {
                 <BellRing className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>Set Reminders</CardTitle>
                 <CardDescription className="mt-2 mb-4">Never miss a dose with medication reminders.</CardDescription>
-                <Button onClick={handleCreateReminder}>Create Reminder</Button>
+                <Button asChild>
+                    <Link href="/dashboard/reminders">
+                        Manage Reminders
+                    </Link>
+                </Button>
             </Card>
           </div>
           

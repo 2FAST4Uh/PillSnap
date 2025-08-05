@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
-import { User, LayoutDashboard, History, Settings, LogOut, PanelLeft } from 'lucide-react';
+import { User, LayoutDashboard, History, Settings, LogOut, PanelLeft, CalendarClock } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -65,6 +65,13 @@ export default function DashboardLayout({
                   <History className="h-5 w-5" />
                   Identification History
                 </Link>
+                 <Link
+                  href="/dashboard/reminders"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <CalendarClock className="h-5 w-5" />
+                  Reminders
+                </Link>
                 <Link
                   href="/dashboard/settings"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
@@ -123,6 +130,12 @@ export default function DashboardLayout({
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
+                    <Link href="/dashboard/reminders">
+                        <CalendarClock className="mr-2 h-4 w-4" />
+                        <span>Reminders</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/dashboard/settings">
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Settings</span>
@@ -147,6 +160,10 @@ export default function DashboardLayout({
             <Link href="/dashboard/history" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
               <History className="h-4 w-4" />
               Identification History
+            </Link>
+            <Link href="/dashboard/reminders" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+              <CalendarClock className="h-4 w-4" />
+              Reminders
             </Link>
              <Link href="/dashboard/settings" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
               <Settings className="h-4 w-4" />

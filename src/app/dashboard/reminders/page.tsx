@@ -21,6 +21,7 @@ const initialReminders: Reminder[] = [
   { id: 1, medicine: 'Metformin 500mg', time: '08:00', active: true },
   { id: 2, medicine: 'Lisinopril 10mg', time: '09:00', active: true },
   { id: 3, medicine: 'Atorvastatin 20mg', time: '20:00', active: false },
+  { id: 4, medicine: 'Clindamycin', time: '20:36', active: true },
 ];
 
 export default function RemindersPage() {

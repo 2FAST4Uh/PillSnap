@@ -1,10 +1,11 @@
 
 'use client';
 
+import { useState } from 'react';
 import { PillIdentifier } from "@/components/pill-identifier";
 import { ExpertList } from "@/components/expert-list";
 import { Logo } from "@/components/logo";
-import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone, Camera } from "lucide-react";
+import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone, Loader2 } from "lucide-react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -18,16 +19,48 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import Image from "next/image";
 import { handleLogout } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import { useToast } from '@/hooks/use-toast';
 
 export default function Home() {
   const router = useRouter();
+  const { toast } = useToast();
+  const [isFindingLocation, setIsFindingLocation] = useState(false);
 
   const onLogout = async () => {
     await handleLogout();
     router.push('/');
+  };
+
+  const handleFindNearby = () => {
+    if (!navigator.geolocation) {
+      toast({
+        variant: 'destructive',
+        title: 'Geolocation Not Supported',
+        description: 'Your browser does not support geolocation.',
+      });
+      return;
+    }
+
+    setIsFindingLocation(true);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const mapsUrl = `https://www.google.com/maps/search/pharmaceutical+stores/@${latitude},${longitude},15z`;
+        window.open(mapsUrl, '_blank');
+        setIsFindingLocation(false);
+      },
+      (error) => {
+        toast({
+          variant: 'destructive',
+          title: 'Location Access Denied',
+          description: 'Please enable location access in your browser settings to use this feature.',
+        });
+        setIsFindingLocation(false);
+      }
+    );
   };
 
   return (
@@ -103,8 +136,12 @@ export default function Home() {
                 <MapPin className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>Find Nearby</CardTitle>
                 <CardDescription className="mt-2 mb-4">Find pharmacies and hospitals near you.</CardDescription>
-                <Button>
-                    <Phone className="mr-2 h-4 w-4" />
+                <Button onClick={handleFindNearby} disabled={isFindingLocation}>
+                    {isFindingLocation ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <MapPin className="mr-2 h-4 w-4" />
+                    )}
                     Search Locations
                 </Button>
             </Card>

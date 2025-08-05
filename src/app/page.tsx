@@ -81,7 +81,7 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="relative h-[60vh] flex items-center justify-center text-center text-white">
           <Image
-            src="https://www.carecloud.com/wp-content/uploads/2024/04/ai-in-medical-billing-and-coding.jpg"
+            src="https://placehold.co/1200x800.png"
             alt="Doctor reviewing patient data"
             fill
             className="absolute inset-0 z-0 object-cover brightness-50"
@@ -203,5 +203,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    

@@ -81,7 +81,7 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="relative h-[60vh] flex items-center justify-center text-center text-white">
           <Image
-            src="https://placehold.co/1200x800.png"
+            src="https://imageio.forbes.com/specials-images/imageserve/651bbeb1c78cc403f92a6abd/0x0.jpg?format=jpg&crop=2500,1405,x0,y0,safe&height=900&width=1600&fit=bounds"
             alt="Doctor reviewing patient data"
             fill
             className="absolute inset-0 z-0 object-cover brightness-50"

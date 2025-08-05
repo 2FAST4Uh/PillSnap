@@ -81,12 +81,12 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="relative h-[60vh] flex items-center justify-center text-center text-white">
           <Image
-            src="https://placehold.co/1200x800.png"
+            src="https://www.carecloud.com/wp-content/uploads/2024/04/ai-in-medical-billing-and-coding.jpg"
             alt="Doctor reviewing patient data"
             layout="fill"
             objectFit="cover"
             className="absolute inset-0 z-0 brightness-50"
-            data-ai-hint="medical technology"
+            data-ai-hint="doctor AI"
           />
           <div className="relative z-10 p-4">
             <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">Your AI-Powered Health Companion</h2>

@@ -1,124 +1,48 @@
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Chatbot } from '@/components/chatbot';
-import { Lightbulb, Heart, Zap, Pill, History } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+'use client';
+
 import { Button } from '@/components/ui/button';
-
-const healthTips = [
-    {
-        Icon: Lightbulb,
-        title: "Stay Hydrated",
-        description: "Drinking enough water daily is crucial for many body functions."
-    },
-    {
-        Icon: Heart,
-        title: "Balanced Diet",
-        description: "Eat a mix of fruits, vegetables, and lean proteins."
-    },
-    {
-        Icon: Zap,
-        title: "Regular Exercise",
-        description: "Aim for 30 mins of activity most days."
-    }
-]
-
-const recentIdentifications = [
-  {
-    id: 1,
-    imageUrl: 'https://placehold.co/100x100.png',
-    medicineName: 'Ibuprofen 200mg',
-    date: '2024-07-28',
-    confidence: 0.98,
-  },
-  {
-    id: 2,
-    imageUrl: 'https://placehold.co/100x100.png',
-    medicineName: 'Acetaminophen 500mg',
-    date: '2024-07-27',
-    confidence: 0.95,
-  },
-  {
-    id: 3,
-    imageUrl: 'https://placehold.co/100x100.png',
-    medicineName: 'Lisinopril 10mg',
-    date: '2024-07-25',
-    confidence: 0.92,
-  },
-];
-
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function DashboardPage() {
   return (
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="lg:col-span-1">
-            <Chatbot />
-        </div>
-        <div className="space-y-6">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Daily Health Tips</CardTitle>
-                    <CardDescription>Simple tips for a healthier lifestyle.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                   <ul className="space-y-4">
-                        {healthTips.map(({Icon, title, description}) => (
-                            <li key={title} className="flex items-start gap-4">
-                                <div className="p-2 bg-accent/20 text-accent rounded-full">
-                                    <Icon className="h-5 w-5" />
-                                </div>
-                                <div>
-                                    <p className="font-semibold">{title}</p>
-                                    <p className="text-sm text-muted-foreground">{description}</p>
-                                </div>
-                            </li>
-                        ))}
-                   </ul>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Recent Identifications</CardTitle>
-                    <CardDescription>Your latest identified medications.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {recentIdentifications.length > 0 ? (
-                    recentIdentifications.map((item) => (
-                       <div key={item.id} className="flex items-center gap-3">
-                        <Image
-                          src={item.imageUrl}
-                          alt={item.medicineName}
-                          width={40}
-                          height={40}
-                          className="rounded-md"
-                          data-ai-hint="medicine pill"
-                        />
-                        <div>
-                          <h3 className="font-semibold text-sm">{item.medicineName}</h3>
-                           <p className="text-xs text-muted-foreground">
-                            {Math.round(item.confidence * 100)}% confidence
-                          </p>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                     <div className="flex flex-col items-center justify-center text-center p-4 border-2 border-dashed rounded-lg">
-                        <Pill className="h-8 w-8 text-muted-foreground" />
-                        <p className="mt-2 text-sm font-semibold">No identifications yet</p>
-                    </div>
-                  )}
-                </CardContent>
-                 <CardFooter>
-                    <Button variant="outline" asChild className="w-full">
-                      <Link href="/dashboard/history">
-                        <History className="mr-2 h-4 w-4" />
-                        View Full History
-                      </Link>
-                    </Button>
-                </CardFooter>
-            </Card>
-        </div>
-      </div>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>User Information</CardTitle>
+          <CardDescription>Manage your personal health details.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="height">Height (cm)</Label>
+              <Input id="height" placeholder="e.g., 175" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="weight">Weight (kg)</Label>
+              <Input id="weight" placeholder="e.g., 70" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="body-fat">Body Fat Percentage (%)</Label>
+              <Input id="body-fat" placeholder="e.g., 15" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="bmi">BMI</Label>
+              <Input id="bmi" placeholder="e.g., 22.9" disabled />
+            </div>
+          </div>
+           <div className="space-y-2">
+            <Label htmlFor="allergies">Allergies</Label>
+            <Textarea id="allergies" placeholder="e.g., Penicillin, Peanuts" />
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button>Save Changes</Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }

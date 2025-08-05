@@ -5,8 +5,6 @@ import { Lightbulb, Heart, Zap, Pill, History } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-
 
 const healthTips = [
     {
@@ -17,12 +15,12 @@ const healthTips = [
     {
         Icon: Heart,
         title: "Balanced Diet",
-        description: "Eat a mix of fruits, vegetables, and lean proteins to get essential nutrients."
+        description: "Eat a mix of fruits, vegetables, and lean proteins."
     },
     {
         Icon: Zap,
         title: "Regular Exercise",
-        description: "Aim for at least 30 minutes of moderate activity most days of the week."
+        description: "Aim for 30 mins of activity most days."
     }
 ]
 
@@ -53,8 +51,8 @@ const recentIdentifications = [
 
 export default function DashboardPage() {
   return (
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="md:col-span-2">
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="lg:col-span-1">
             <Chatbot />
         </div>
         <div className="space-y-6">
@@ -87,18 +85,18 @@ export default function DashboardPage() {
                 <CardContent className="space-y-4">
                   {recentIdentifications.length > 0 ? (
                     recentIdentifications.map((item) => (
-                       <div key={item.id} className="flex items-center gap-4">
+                       <div key={item.id} className="flex items-center gap-3">
                         <Image
                           src={item.imageUrl}
                           alt={item.medicineName}
-                          width={48}
-                          height={48}
+                          width={40}
+                          height={40}
                           className="rounded-md"
                           data-ai-hint="medicine pill"
                         />
                         <div>
-                          <h3 className="font-semibold">{item.medicineName}</h3>
-                           <p className="text-sm text-muted-foreground">
+                          <h3 className="font-semibold text-sm">{item.medicineName}</h3>
+                           <p className="text-xs text-muted-foreground">
                             {Math.round(item.confidence * 100)}% confidence
                           </p>
                         </div>

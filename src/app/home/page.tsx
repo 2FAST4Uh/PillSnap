@@ -74,7 +74,7 @@ export default function Home() {
         
         <div className="flex items-center gap-2">
             <Button variant="primary" asChild>
-                <Link href="/dashboard">AI chatbot</Link>
+                <Link href="/dashboard/chatbot">AI Chatbot</Link>
             </Button>
             <ThemeSwitcher />
             <DropdownMenu>
@@ -98,6 +98,12 @@ export default function Home() {
                   <Link href="/dashboard">
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                  <Link href="/dashboard/chatbot">
+                    <Bot className="mr-2 h-4 w-4" />
+                    <span>AI Chatbot</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
@@ -165,7 +171,7 @@ export default function Home() {
                 <CardTitle>AI Assistant</CardTitle>
                 <CardDescription className="mt-2 mb-4">Ask our AI about symptoms or medications.</CardDescription>
                 <Button asChild>
-                    <Link href="/dashboard">
+                    <Link href="/dashboard/chatbot">
                         Open Chatbot
                     </Link>
                 </Button>

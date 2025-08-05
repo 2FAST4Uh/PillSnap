@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
-import { User, LayoutDashboard, History, Settings, LogOut, PanelLeft, CalendarClock } from 'lucide-react';
+import { User, LayoutDashboard, History, Settings, LogOut, PanelLeft, CalendarClock, Bot } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -49,7 +49,7 @@ export default function DashboardLayout({
                   className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
                 >
                   <Logo className="h-5 w-5 transition-all group-hover:scale-110" />
-                  <span className="sr-only">MedSparks</span>
+                  <span className="sr-only">PillSnap</span>
                 </Link>
                 <Link
                   href="/dashboard"
@@ -57,6 +57,13 @@ export default function DashboardLayout({
                 >
                   <LayoutDashboard className="h-5 w-5" />
                   Dashboard
+                </Link>
+                <Link
+                  href="/dashboard/chatbot"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Bot className="h-5 w-5" />
+                  AI Chatbot
                 </Link>
                 <Link
                   href="/dashboard/history"
@@ -94,7 +101,7 @@ export default function DashboardLayout({
             <Link href="/" aria-label="Home">
               <Logo />
             </Link>
-            <h1 className="hidden sm:block text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
+            <h1 className="hidden sm:block text-xl font-semibold text-foreground sm:text-2xl">PillSnap</h1>
           </div>
         </div>
 
@@ -121,6 +128,12 @@ export default function DashboardLayout({
                   <Link href="/dashboard">
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/chatbot">
+                    <Bot className="mr-2 h-4 w-4" />
+                    <span>AI Chatbot</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
@@ -153,9 +166,13 @@ export default function DashboardLayout({
       <div className="flex flex-1">
         <aside className="hidden w-64 flex-col border-r bg-background p-4 sm:flex">
           <nav className="flex flex-col gap-2">
-            <Link href="/dashboard" className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary">
+            <Link href="/dashboard" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
               <LayoutDashboard className="h-4 w-4" />
               Dashboard
+            </Link>
+             <Link href="/dashboard/chatbot" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+              <Bot className="h-4 w-4" />
+              AI Chatbot
             </Link>
             <Link href="/dashboard/history" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
               <History className="h-4 w-4" />

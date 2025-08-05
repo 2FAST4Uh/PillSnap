@@ -1,7 +1,11 @@
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Chatbot } from '@/components/chatbot';
-import { Lightbulb, Heart, Zap } from 'lucide-react';
+import { Lightbulb, Heart, Zap, Pill, History } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 
 const healthTips = [
@@ -21,6 +25,31 @@ const healthTips = [
         description: "Aim for at least 30 minutes of moderate activity most days of the week."
     }
 ]
+
+const recentIdentifications = [
+  {
+    id: 1,
+    imageUrl: 'https://placehold.co/100x100.png',
+    medicineName: 'Ibuprofen 200mg',
+    date: '2024-07-28',
+    confidence: 0.98,
+  },
+  {
+    id: 2,
+    imageUrl: 'https://placehold.co/100x100.png',
+    medicineName: 'Acetaminophen 500mg',
+    date: '2024-07-27',
+    confidence: 0.95,
+  },
+  {
+    id: 3,
+    imageUrl: 'https://placehold.co/100x100.png',
+    medicineName: 'Lisinopril 10mg',
+    date: '2024-07-25',
+    confidence: 0.92,
+  },
+];
+
 
 export default function DashboardPage() {
   return (
@@ -49,6 +78,47 @@ export default function DashboardPage() {
                         ))}
                    </ul>
                 </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Recent Identifications</CardTitle>
+                    <CardDescription>Your latest identified medications.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {recentIdentifications.length > 0 ? (
+                    recentIdentifications.map((item) => (
+                       <div key={item.id} className="flex items-center gap-4">
+                        <Image
+                          src={item.imageUrl}
+                          alt={item.medicineName}
+                          width={48}
+                          height={48}
+                          className="rounded-md"
+                          data-ai-hint="medicine pill"
+                        />
+                        <div>
+                          <h3 className="font-semibold">{item.medicineName}</h3>
+                           <p className="text-sm text-muted-foreground">
+                            {Math.round(item.confidence * 100)}% confidence
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                     <div className="flex flex-col items-center justify-center text-center p-4 border-2 border-dashed rounded-lg">
+                        <Pill className="h-8 w-8 text-muted-foreground" />
+                        <p className="mt-2 text-sm font-semibold">No identifications yet</p>
+                    </div>
+                  )}
+                </CardContent>
+                 <CardFooter>
+                    <Button variant="outline" asChild className="w-full">
+                      <Link href="/dashboard/history">
+                        <History className="mr-2 h-4 w-4" />
+                        View Full History
+                      </Link>
+                    </Button>
+                </CardFooter>
             </Card>
         </div>
       </div>

@@ -3,9 +3,8 @@
 
 import { useState } from 'react';
 import { PillIdentifier } from "@/components/pill-identifier";
-import { ExpertList } from "@/components/expert-list";
 import { Logo } from "@/components/logo";
-import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone, Loader2, CalendarClock } from "lucide-react";
+import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone, Loader2, CalendarClock, Bot } from "lucide-react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -48,7 +47,7 @@ export default function Home() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        const mapsUrl = `https://www.google.com/maps/search/pharmaceutical+stores/@${latitude},${longitude},15z`;
+        const mapsUrl = `https://www.google.com/maps/search/pharmacies+and+hospitals/@${latitude},${longitude},15z`;
         window.open(mapsUrl, '_blank');
         setIsFindingLocation(false);
       },
@@ -137,7 +136,7 @@ export default function Home() {
             
           <PillIdentifier />
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">
                 <MapPin className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>Find Nearby</CardTitle>
@@ -161,19 +160,15 @@ export default function Home() {
                     </Link>
                 </Button>
             </Card>
-          </div>
-          
-          <div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Contact an Expert</CardTitle>
-                    <CardDescription>
-                    Find a specialist for your health concerns.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <ExpertList />
-                </CardContent>
+             <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">
+                <Bot className="h-12 w-12 text-primary mb-4" />
+                <CardTitle>AI Assistant</CardTitle>
+                <CardDescription className="mt-2 mb-4">Ask our AI about symptoms or medications.</CardDescription>
+                <Button asChild>
+                    <Link href="/dashboard">
+                        Open Chatbot
+                    </Link>
+                </Button>
             </Card>
           </div>
         </div>

@@ -4,7 +4,7 @@
 import { PillIdentifier } from "@/components/pill-identifier";
 import { ExpertList } from "@/components/expert-list";
 import { Logo } from "@/components/logo";
-import { User, LayoutDashboard, History, Settings, LogOut } from "lucide-react";
+import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone } from "lucide-react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -37,7 +37,7 @@ export default function Home() {
           <Link href="/" aria-label="Home">
             <Logo />
           </Link>
-          <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
+          <h1 className="text-xl font-semibold text-foreground sm:text-2xl">PillSnap</h1>
         </div>
         
         <div className="flex items-center gap-2">
@@ -91,29 +91,46 @@ export default function Home() {
       </header>
       <main className="flex-1 p-4 md:p-8">
         <div className="max-w-7xl mx-auto space-y-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Your Health Dashboard</h2>
+            <p className="mt-3 text-lg text-muted-foreground">Quick access to all your health tools.</p>
+          </div>
             
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="md:col-span-2">
-                <PillIdentifier />
-              </div>
-              <div>
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Contact an Expert</CardTitle>
-                        <CardDescription>
-                        Find a specialist for your health concerns.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ExpertList />
-                    </CardContent>
-                </Card>
-              </div>
-            </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">
+                <MapPin className="h-12 w-12 text-primary mb-4" />
+                <CardTitle>Find Nearby</CardTitle>
+                <CardDescription className="mt-2 mb-4">Find pharmacies and hospitals near you.</CardDescription>
+                <Button>
+                    <Phone className="mr-2 h-4 w-4" />
+                    Search Locations
+                </Button>
+            </Card>
+            <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">
+                <BellRing className="h-12 w-12 text-primary mb-4" />
+                <CardTitle>Set Reminders</CardTitle>
+                <CardDescription className="mt-2 mb-4">Never miss a dose with medication reminders.</CardDescription>
+                <Button>Create Reminder</Button>
+            </Card>
+          </div>
+          
+          <div>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Contact an Expert</CardTitle>
+                    <CardDescription>
+                    Find a specialist for your health concerns.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <ExpertList />
+                </CardContent>
+            </Card>
+          </div>
         </div>
       </main>
       <footer className="border-t bg-background/50 text-center text-xs text-muted-foreground p-4 md:text-sm">
-        MedSparks - Your AI Health Companion. This is a demo app and should not be used for actual medical diagnosis. Always consult a healthcare professional.
+        PillSnap - Your AI Health Companion. This is a demo app and should not be used for actual medical diagnosis. Always consult a healthcare professional.
       </footer>
     </div>
   );

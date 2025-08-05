@@ -4,7 +4,7 @@
 import { PillIdentifier } from "@/components/pill-identifier";
 import { ExpertList } from "@/components/expert-list";
 import { Logo } from "@/components/logo";
-import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone } from "lucide-react";
+import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone, Camera } from "lucide-react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -96,6 +96,8 @@ export default function Home() {
             <p className="mt-3 text-lg text-muted-foreground">Quick access to all your health tools.</p>
           </div>
             
+          <PillIdentifier />
+
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">
                 <MapPin className="h-12 w-12 text-primary mb-4" />

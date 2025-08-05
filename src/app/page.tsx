@@ -62,7 +62,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 flex items-center justify-between border-b bg-background/80 backdrop-blur-sm px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-3" aria-label="Home">
             <Logo />
-            <h1 className="text-xl font-semibold text-foreground sm:text-2xl">MedSparks</h1>
+            <h1 className="text-xl font-semibold text-foreground sm:text-2xl">PillSnap</h1>
         </Link>
         <div className="flex items-center gap-2">
             <Button asChild variant="ghost">
@@ -105,7 +105,7 @@ export default function LandingPage() {
         <section id="features" className="py-16 md:py-24 bg-muted/50">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
-                    <h3 className="text-3xl font-bold text-foreground">Why MedSparks?</h3>
+                    <h3 className="text-3xl font-bold text-foreground">Why PillSnap?</h3>
                     <p className="text-muted-foreground mt-2">Everything you need to manage your health with confidence.</p>
                 </div>
                 <div className="grid md:grid-cols-3 gap-8 text-center">
@@ -142,7 +142,7 @@ export default function LandingPage() {
                     <form onSubmit={onLogin}>
                         <CardHeader>
                         <CardTitle>Welcome Back</CardTitle>
-                        <CardDescription>Access your MedSparks account.</CardDescription>
+                        <CardDescription>Access your PillSnap account.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                         <div className="space-y-2">
@@ -167,7 +167,7 @@ export default function LandingPage() {
                     <form onSubmit={onSignUp}>
                         <CardHeader>
                         <CardTitle>Create Account</CardTitle>
-                        <CardDescription>Start managing your health with MedSparks.</CardDescription>
+                        <CardDescription>Start managing your health with PillSnap.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                         <div className="space-y-2">
@@ -198,7 +198,7 @@ export default function LandingPage() {
       </main>
 
       <footer className="border-t bg-muted/50 text-center text-xs text-muted-foreground p-4">
-        &copy; {new Date().getFullYear()} MedSparks. All Rights Reserved. This is a demo application.
+        &copy; {new Date().getFullYear()} PillSnap. All Rights Reserved. This is a demo application.
       </footer>
     </div>
   );

@@ -11,8 +11,8 @@ const fontSans = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'MedSparks - AI Medicine Identifier',
-  description: 'Instantly identify pills, get information, and connect with experts using MedSparks.',
+  title: 'PillSnap - AI Medicine Identifier',
+  description: 'Instantly identify pills, get information, and set reminders with PillSnap.',
 };
 
 export default function RootLayout({

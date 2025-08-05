@@ -56,7 +56,7 @@ export function Chatbot() {
   };
 
   return (
-    <Card className="flex h-[70vh] flex-col md:h-[calc(80vh-10rem)]">
+    <Card className="flex h-full flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bot className="h-6 w-6" />

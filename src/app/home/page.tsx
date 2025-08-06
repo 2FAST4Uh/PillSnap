@@ -73,9 +73,6 @@ export default function Home() {
         </div>
         
         <div className="flex items-center gap-2">
-            <Button variant="primary" asChild>
-                <Link href="/dashboard/chatbot">AI Chatbot</Link>
-            </Button>
             <ThemeSwitcher />
             <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -92,18 +89,18 @@ export default function Home() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
+                  <Link href="/dashboard/chatbot">
+                    <Bot className="mr-2 h-4 w-4" />
+                    <span>AI Chatbot</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/home">Home</Link>
                 </DropdownMenuItem>
                  <DropdownMenuItem asChild>
                   <Link href="/dashboard">
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
-                  </Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/chatbot">
-                    <Bot className="mr-2 h-4 w-4" />
-                    <span>AI Chatbot</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
@@ -142,7 +139,7 @@ export default function Home() {
             
           <PillIdentifier />
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-4 gap-8">
             <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">
                 <MapPin className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>Find Nearby</CardTitle>
@@ -174,6 +171,19 @@ export default function Home() {
                     <Link href="/dashboard/chatbot">
                         Open Chatbot
                     </Link>
+                </Button>
+            </Card>
+            <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">
+                <MapPin className="h-12 w-12 text-primary mb-4" />
+                <CardTitle>Find Nearby</CardTitle>
+                <CardDescription className="mt-2 mb-4">Find pharmacies and hospitals near you.</CardDescription>
+                <Button onClick={handleFindNearby} disabled={isFindingLocation}>
+                    {isFindingLocation ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <MapPin className="mr-2 h-4 w-4" />
+                    )}
+                    Search Locations
                 </Button>
             </Card>
           </div>

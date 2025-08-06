@@ -23,6 +23,7 @@ import { handleLogout } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { useToast } from '@/hooks/use-toast';
 import { SymptomChecker } from '@/components/symptom-checker';
+import { LanguageSwitcher } from '@/components/language-switcher';
 
 export default function Home() {
   const router = useRouter();
@@ -75,6 +76,7 @@ export default function Home() {
         </div>
         
         <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             <ThemeSwitcher />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

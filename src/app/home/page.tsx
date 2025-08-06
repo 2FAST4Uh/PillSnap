@@ -23,7 +23,6 @@ import { handleLogout } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { useToast } from '@/hooks/use-toast';
 import { SymptomChecker } from '@/components/symptom-checker';
-import { ExpertList } from '@/components/expert-list';
 
 export default function Home() {
   const router = useRouter();
@@ -89,13 +88,6 @@ export default function Home() {
                   <DropdownMenuLabel>Health Tools</DropdownMenuLabel>
                   <div className="p-2">
                       <SymptomChecker />
-                  </div>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                 <DropdownMenuGroup>
-                  <DropdownMenuLabel>Find an Expert</DropdownMenuLabel>
-                   <div className="p-2">
-                      <ExpertList />
                   </div>
                 </DropdownMenuGroup>
               </DropdownMenuContent>

@@ -3,7 +3,7 @@
 
 import { useState, useRef, useTransition } from "react";
 import Image from "next/image";
-import { Camera, FileUp, Loader2, Pill, Sparkles, X } from "lucide-react";
+import { Camera, FileUp, Loader2, Pill, Sparkles, X, Barcode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { handleIdentifyAndSummarize } from "@/lib/actions";
 import type { IdentifyMedicineOutput } from "@/ai/flows/identify-medicine";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 
 type Result = {
   identification: IdentifyMedicineOutput;
@@ -25,6 +27,7 @@ export function PillIdentifier() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -72,60 +75,123 @@ export function PillIdentifier() {
       }
     });
   };
+  
+  const handleBarcodeSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!file) {
+      toast({
+        variant: "destructive",
+        title: "No Image",
+        description: "Please upload an image with a barcode.",
+      });
+      return;
+    }
+    // Placeholder for barcode scanning logic
+    toast({
+      title: "Feature In Development",
+      description: "Barcode scanning functionality is not yet implemented.",
+    });
+  };
 
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Pill Identifier</CardTitle>
-          <CardDescription>Upload a photo of a pill to identify it using AI.</CardDescription>
+          <CardTitle>AI-Powered Identification</CardTitle>
+          <CardDescription>Use your camera or upload an image to identify pills or scan barcodes.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input type="file" accept="image/*" onChange={handleFileChange} className="hidden" ref={fileInputRef} />
-            
-            {!preview ? (
-              <div 
-                className="flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-12 text-center cursor-pointer hover:border-primary transition-colors"
-                onClick={() => fileInputRef.current?.click()}
-                onDrop={(e) => { e.preventDefault(); handleFileChange({ target: { files: e.dataTransfer.files } } as any); }}
-                onDragOver={(e) => e.preventDefault()}
-              >
-                <FileUp className="h-12 w-12 text-muted-foreground" />
-                <p className="mt-4 font-semibold">Click to upload or drag and drop</p>
-                <p className="text-sm text-muted-foreground">PNG, JPG, or WEBP</p>
-              </div>
-            ) : (
-              <div className="relative group">
-                <Image
-                  src={preview}
-                  alt="Pill preview"
-                  width={300}
-                  height={300}
-                  className="w-full h-auto max-h-80 object-contain rounded-lg border"
-                  data-ai-hint="pill medication"
-                />
-                <Button variant="destructive" size="icon" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={handleRemoveImage}>
-                  <X className="h-4 w-4" />
-                   <span className="sr-only">Remove Image</span>
-                </Button>
-              </div>
-            )}
-            
-            <Button type="submit" disabled={isPending || !file} className="w-full" variant="primary">
-              {isPending ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Identifying...
-                </>
-              ) : (
-                <>
-                  <Camera className="mr-2 h-4 w-4" />
-                  Identify Pill
-                </>
-              )}
-            </Button>
-          </form>
+          <Tabs defaultValue="pill" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="pill"><Pill className="mr-2 h-4 w-4" /> Pill Identification</TabsTrigger>
+              <TabsTrigger value="barcode"><Barcode className="mr-2 h-4 w-4"/>Barcode Scan</TabsTrigger>
+            </TabsList>
+            <TabsContent value="pill">
+               <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+                  <Input type="file" accept="image/*" onChange={handleFileChange} className="hidden" ref={fileInputRef} />
+                  
+                  {!preview ? (
+                    <div 
+                      className="flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-12 text-center cursor-pointer hover:border-primary transition-colors"
+                      onClick={() => fileInputRef.current?.click()}
+                      onDrop={(e) => { e.preventDefault(); handleFileChange({ target: { files: e.dataTransfer.files } } as any); }}
+                      onDragOver={(e) => e.preventDefault()}
+                    >
+                      <FileUp className="h-12 w-12 text-muted-foreground" />
+                      <p className="mt-4 font-semibold">Click to upload or drag and drop</p>
+                      <p className="text-sm text-muted-foreground">PNG, JPG, or WEBP</p>
+                    </div>
+                  ) : (
+                    <div className="relative group">
+                      <Image
+                        src={preview}
+                        alt="Pill preview"
+                        width={300}
+                        height={300}
+                        className="w-full h-auto max-h-80 object-contain rounded-lg border"
+                        data-ai-hint="pill medication"
+                      />
+                      <Button variant="destructive" size="icon" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={handleRemoveImage}>
+                        <X className="h-4 w-4" />
+                        <span className="sr-only">Remove Image</span>
+                      </Button>
+                    </div>
+                  )}
+                  
+                  <Button type="submit" disabled={isPending || !file} className="w-full" variant="primary">
+                    {isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Identifying...
+                      </>
+                    ) : (
+                      <>
+                        <Camera className="mr-2 h-4 w-4" />
+                        Identify Pill
+                      </>
+                    )}
+                  </Button>
+                </form>
+            </TabsContent>
+             <TabsContent value="barcode">
+                <form onSubmit={handleBarcodeSubmit} className="space-y-4 pt-4">
+                  <Input type="file" accept="image/*" onChange={handleFileChange} className="hidden" ref={fileInputRef} />
+                  
+                  {!preview ? (
+                    <div 
+                      className="flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-12 text-center cursor-pointer hover:border-primary transition-colors"
+                      onClick={() => fileInputRef.current?.click()}
+                       onDrop={(e) => { e.preventDefault(); handleFileChange({ target: { files: e.dataTransfer.files } } as any); }}
+                      onDragOver={(e) => e.preventDefault()}
+                    >
+                      <FileUp className="h-12 w-12 text-muted-foreground" />
+                      <p className="mt-4 font-semibold">Upload an image of a barcode</p>
+                      <p className="text-sm text-muted-foreground">PNG, JPG, or WEBP</p>
+                    </div>
+                  ) : (
+                    <div className="relative group">
+                      <Image
+                        src={preview}
+                        alt="Barcode preview"
+                        width={300}
+                        height={300}
+                        className="w-full h-auto max-h-80 object-contain rounded-lg border"
+                        data-ai-hint="product barcode"
+                      />
+                      <Button variant="destructive" size="icon" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={handleRemoveImage}>
+                        <X className="h-4 w-4" />
+                        <span className="sr-only">Remove Image</span>
+                      </Button>
+                    </div>
+                  )}
+                  
+                  <Button type="submit" disabled={!file} className="w-full" variant="primary">
+                    <Barcode className="mr-2 h-4 w-4" />
+                    Scan Barcode
+                  </Button>
+                </form>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
       

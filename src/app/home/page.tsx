@@ -21,6 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { handleLogout } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { useToast } from '@/hooks/use-toast';
+import { SymptomChecker } from '@/components/symptom-checker';
 
 export default function Home() {
   const router = useRouter();
@@ -138,6 +139,8 @@ export default function Home() {
           </div>
             
           <PillIdentifier />
+
+          <SymptomChecker />
 
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">

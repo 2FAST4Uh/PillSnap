@@ -128,6 +128,8 @@ const SidebarProvider = React.forwardRef<
       }),
       [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
     )
+    
+    const { ...rest } = props;
 
     return (
       <SidebarContext.Provider value={contextValue}>
@@ -145,7 +147,7 @@ const SidebarProvider = React.forwardRef<
               className
             )}
             ref={ref}
-            {...props}
+            {...rest}
           >
             {children}
           </div>

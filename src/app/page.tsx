@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Logo } from '@/components/logo';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Pill, Bot, BellRing } from 'lucide-react';
+import { Loader2, Pill, Bot, BellRing, MapPin } from 'lucide-react';
 
 export default function LandingPage() {
   const [loginEmail, setLoginEmail] = useState('');
@@ -108,7 +108,7 @@ export default function LandingPage() {
                     <h3 className="text-3xl font-bold text-foreground">Why PillSnap?</h3>
                     <p className="text-muted-foreground mt-2">Everything you need to manage your health with confidence.</p>
                 </div>
-                <div className="grid md:grid-cols-3 gap-8 text-center">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
                     <div className="p-6 border rounded-lg bg-card">
                         <Pill className="h-12 w-12 text-primary mx-auto mb-4" />
                         <h4 className="text-xl font-semibold">Pill Identifier</h4>
@@ -123,6 +123,11 @@ export default function LandingPage() {
                         <BellRing className="h-12 w-12 text-primary mx-auto mb-4" />
                         <h4 className="text-xl font-semibold">Smart Reminders</h4>
                         <p className="text-muted-foreground mt-2">Never miss a dose with intelligent and timely medication reminders.</p>
+                    </div>
+                    <div className="p-6 border rounded-lg bg-card">
+                        <MapPin className="h-12 w-12 text-primary mx-auto mb-4" />
+                        <h4 className="text-xl font-semibold">Find Nearby</h4>
+                        <p className="text-muted-foreground mt-2">Quickly locate pharmacies and hospitals near you.</p>
                     </div>
                 </div>
             </div>

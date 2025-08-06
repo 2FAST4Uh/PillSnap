@@ -88,7 +88,7 @@ export default function LandingPage() {
             data-ai-hint="doctor AI"
           />
           <div className="relative z-10 p-4">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">Your AI-Powered Health Companion</h2>
+            <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">Your online health companion</h2>
             <p className="mt-4 text-lg max-w-3xl mx-auto">
               Instantly identify medications, get detailed information, set reminders, and connect with healthcare experts—all in one place.
             </p>

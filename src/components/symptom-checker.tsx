@@ -39,35 +39,35 @@ const symptomData = [
 
 export function SymptomChecker() {
   return (
-    <Card>
-        <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-                <Stethoscope className="h-6 w-6 text-primary" />
+    <Card className="border-0 shadow-none">
+        <CardHeader className="p-1">
+            <CardTitle className="flex items-center gap-2 text-base">
+                <Stethoscope className="h-5 w-5 text-primary" />
                 Symptom Checker
             </CardTitle>
-            <CardDescription>
-                Get quick insights into common symptoms. This is not a substitute for professional medical advice.
+            <CardDescription className="text-xs">
+                Quick insights into common symptoms. Not a substitute for professional medical advice.
             </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
             <Accordion type="single" collapsible className="w-full">
             {symptomData.map(({symptom, Icon, causes, remedies}) => (
                 <AccordionItem value={symptom} key={symptom}>
-                <AccordionTrigger className="text-lg font-semibold hover:no-underline">
+                <AccordionTrigger className="text-sm font-semibold hover:no-underline py-2">
                     <div className="flex items-center gap-3">
-                        <Icon className="h-6 w-6 text-accent"/>
+                        <Icon className="h-5 w-5 text-accent"/>
                         {symptom}
                     </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                    <div className="space-y-4 pt-2 pl-9">
+                    <div className="space-y-3 pt-1 pb-2 pl-8">
                         <div>
-                            <h4 className="font-semibold text-md mb-1">Potential Causes</h4>
-                            <p className="text-sm text-muted-foreground">{causes}</p>
+                            <h4 className="font-semibold text-xs mb-1">Potential Causes</h4>
+                            <p className="text-xs text-muted-foreground">{causes}</p>
                         </div>
                          <div>
-                            <h4 className="font-semibold text-md mb-1">Suggested Remedies</h4>
-                            <p className="text-sm text-muted-foreground">{remedies}</p>
+                            <h4 className="font-semibold text-xs mb-1">Suggested Remedies</h4>
+                            <p className="text-xs text-muted-foreground">{remedies}</p>
                         </div>
                     </div>
                 </AccordionContent>

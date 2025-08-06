@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { PillIdentifier } from "@/components/pill-identifier";
 import { Logo } from "@/components/logo";
-import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone, Loader2, CalendarClock, Bot } from "lucide-react";
+import { User, LayoutDashboard, History, Settings, LogOut, MapPin, BellRing, Phone, Loader2, CalendarClock, Bot, Menu, Stethoscope, HeartPulse } from "lucide-react";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -14,6 +14,7 @@ import {
   DropdownMenuLabel, 
   DropdownMenuSeparator, 
   DropdownMenuTrigger,
+  DropdownMenuGroup
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -22,6 +23,7 @@ import { handleLogout } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { useToast } from '@/hooks/use-toast';
 import { SymptomChecker } from '@/components/symptom-checker';
+import { ExpertList } from '@/components/expert-list';
 
 export default function Home() {
   const router = useRouter();
@@ -76,58 +78,82 @@ export default function Home() {
         <div className="flex items-center gap-2">
             <ThemeSwitcher />
             <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="rounded-full">
-                <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://placehold.co/32x32.png" alt="User avatar" data-ai-hint="user avatar" />
-                    <AvatarFallback>
-                    <User className="h-4 w-4" />
-                    </AvatarFallback>
-                </Avatar>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu />
+                  <span className="sr-only">Open Menu</span>
                 </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[340px] sm:w-[450px] md:w-[550px]" align="end">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Health Tools</DropdownMenuLabel>
+                  <div className="p-2">
+                      <SymptomChecker />
+                  </div>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/chatbot">
-                    <Bot className="mr-2 h-4 w-4" />
-                    <span>AI Chatbot</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/home">Home</Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard">
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    <span>Dashboard</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/history">
-                    <History className="mr-2 h-4 w-4" />
-                    <span>History</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/reminders">
-                    <CalendarClock className="mr-2 h-4 w-4" />
-                    <span>Reminders</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/settings">
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onLogout}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Logout</span>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
+                 <DropdownMenuGroup>
+                  <DropdownMenuLabel>Find an Expert</DropdownMenuLabel>
+                   <div className="p-2">
+                      <ExpertList />
+                  </div>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon" className="rounded-full">
+                  <Avatar className="h-8 w-8">
+                      <AvatarImage src="https://placehold.co/32x32.png" alt="User avatar" data-ai-hint="user avatar" />
+                      <AvatarFallback>
+                      <User className="h-4 w-4" />
+                      </AvatarFallback>
+                  </Avatar>
+                  </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/chatbot">
+                      <Bot className="mr-2 h-4 w-4" />
+                      <span>AI Chatbot</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/home">Home</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard">
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/history">
+                      <History className="mr-2 h-4 w-4" />
+                      <span>History</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/reminders">
+                      <CalendarClock className="mr-2 h-4 w-4" />
+                      <span>Reminders</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/settings">
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={onLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+              </DropdownMenuContent>
             </DropdownMenu>
         </div>
       </header>
@@ -139,8 +165,6 @@ export default function Home() {
           </div>
             
           <PillIdentifier />
-
-          <SymptomChecker />
 
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">

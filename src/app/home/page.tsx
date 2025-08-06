@@ -139,7 +139,7 @@ export default function Home() {
             
           <PillIdentifier />
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">
                 <MapPin className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>Find Nearby</CardTitle>
@@ -171,19 +171,6 @@ export default function Home() {
                     <Link href="/dashboard/chatbot">
                         Open Chatbot
                     </Link>
-                </Button>
-            </Card>
-            <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow">
-                <MapPin className="h-12 w-12 text-primary mb-4" />
-                <CardTitle>Find Nearby</CardTitle>
-                <CardDescription className="mt-2 mb-4">Find pharmacies and hospitals near you.</CardDescription>
-                <Button onClick={handleFindNearby} disabled={isFindingLocation}>
-                    {isFindingLocation ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                      <MapPin className="mr-2 h-4 w-4" />
-                    )}
-                    Search Locations
                 </Button>
             </Card>
           </div>

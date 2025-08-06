@@ -111,7 +111,7 @@ export default function DashboardLayout({
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon" className="rounded-full">
                 <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://placehold.co/32x32.png" alt="User avatar" data-ai-hint="user avatar" />
+                    <AvatarImage src="https://cdn2.iconfinder.com/data/icons/instagram-ui/48/jee-75-512.png" alt="User avatar" data-ai-hint="user avatar" />
                     <AvatarFallback>
                     <User className="h-4 w-4" />
                     </AvatarFallback>
